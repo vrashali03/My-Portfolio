@@ -2,15 +2,14 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { BubbleBackground } from "./animate-ui/backgrounds/bubble";
 import { useEffect, useRef, useState } from "react";
 import { FaLinkedinIn, FaGithub } from "react-icons/fa";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { BiLogoGmail } from "react-icons/bi";
-import MailModal from "./MailModal";
+
 import { Toaster } from "react-hot-toast";
 
 const Layout = () => {
   const navigate = useNavigate();
   const path = location.pathname;
-  const [showMailModal, setShowMailModal] = useState<boolean>(false);
   const [currentRef, setCurrentRef] =
     useState<React.RefObject<HTMLButtonElement | null>>();
   const mainRef = useRef<HTMLDivElement>(null);
@@ -37,14 +36,6 @@ const Layout = () => {
       setCurrentRef(aboutRef);
     }
   }, [path]);
-
-  console.log({
-    Main: mainRef?.current?.getBoundingClientRect(),
-    Home: homeRef?.current?.getBoundingClientRect(),
-    project: projectsRef?.current?.getBoundingClientRect(),
-    About: aboutRef?.current?.getBoundingClientRect(),
-    current: currentRect,
-  });
 
   return (
     <BubbleBackground
@@ -95,7 +86,7 @@ const Layout = () => {
             About
           </button>
         </div>
-        <div className="fixed right-4 top-4 flex items-center gap-4">
+        <div className="fixed right-4 top-6 flex items-center gap-4">
           <motion.button
             onClick={() => handleIconClick("https://github.com/vrashali03")}
             whileTap={{ scale: 0.6 }}
@@ -112,17 +103,13 @@ const Layout = () => {
             className="hover:cursor-pointer transition-all">
             <FaLinkedinIn size={24} />
           </motion.button>
-          <motion.button
-            onClick={() => setShowMailModal(true)}
+          <motion.a
             whileTap={{ scale: 0.6 }}
             className="hover:cursor-pointer transition-all">
             <BiLogoGmail size={24} />
-          </motion.button>
+          </motion.a>
         </div>
       </div>
-      <AnimatePresence>
-        {showMailModal && <MailModal setShowMailModal={setShowMailModal} />}
-      </AnimatePresence>
 
       <Outlet />
     </BubbleBackground>
